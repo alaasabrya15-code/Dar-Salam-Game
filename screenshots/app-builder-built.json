@@ -1,0 +1,38 @@
+{
+  "url": "http://127.0.0.1:8081/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "توكتوك دار السلام",
+      "hasCanvas": true,
+      "bodyTextLen": 178,
+      "bodyTextHash": "405c2b288bbe712570f5668d8813b6b731218eecee6579154d7bee41ba95128f",
+      "bodyTextPrefix": "ورشة الحي توكتوك دار السلام دار السلام ١ وردية سدّد إيجار اليوم ",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-built.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "توكتوك دار السلام",
+      "hasCanvas": true,
+      "bodyTextLen": 178,
+      "bodyTextHash": "405c2b288bbe712570f5668d8813b6b731218eecee6579154d7bee41ba95128f",
+      "bodyTextPrefix": "ورشة الحي توكتوك دار السلام دار السلام ١ وردية سدّد إيجار اليوم ",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-built-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-built.json",
+  "divergesFromBaseline": false,
+  "baselineReasons": []
+}

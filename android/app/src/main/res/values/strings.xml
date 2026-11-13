@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">توكتوك دار السلام</string>
+    <string name="title_activity_main">توكتوك دار السلام</string>
+    <string name="package_name">com.darsalam.game</string>
+    <string name="custom_url_scheme">com.darsalam.game</string>
+</resources>

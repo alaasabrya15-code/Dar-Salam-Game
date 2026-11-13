@@ -1,0 +1,31 @@
+.grok/app-env.json
+node_modules
+/capacitor-build/
+/android/.gradle/
+/android/build/
+/android/app/build/
+/android/local.properties
+
+# Local settings and secrets
+.grok/
+.env
+.env.*
+!.env.example
+*.keystore
+*.jks
+local.properties
+
+# Dependencies and generated files
+node_modules/
+.vercel/
+capacitor-build/
+dist/
+coverage/
+android/.gradle/
+android/build/
+android/app/build/
+
+# Local archives
+Dar-Salam-project.zip
+*.apk
+*.aab
