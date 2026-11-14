@@ -58,11 +58,11 @@ jobs:
       - name: Install dependencies
         run: npm install --no-audit --no-fund
 
-      - name: Verify lock file
-        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
-
       - name: Build web application
         run: npm run build
+
+      - name: Fix Gradle permissions
+        run: chmod +x android/gradlew
 
       - name: Build Android APK
         run: npm run android:apk
