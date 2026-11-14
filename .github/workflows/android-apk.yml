@@ -32,22 +32,32 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install Android SDK packages
+      - name: Locate Android SDK
         shell: bash
         run: |
-          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -name sdkmanager -type f | head -n 1)"
+          echo "ANDROID_HOME=${ANDROID_HOME}"
+          echo "ANDROID_SDK_ROOT=${ANDROID_HOME}"
+
+          SDKMANAGER=$(find "$ANDROID_HOME/cmdline-tools" \
+            -type f -name sdkmanager | head -n 1)
 
           if [ -z "$SDKMANAGER" ]; then
-            echo "ERROR: sdkmanager was not found"
-            find "$ANDROID_HOME" -maxdepth 5 -type f -name sdkmanager
+            echo "ERROR: sdkmanager not found"
             exit 1
           fi
 
-          echo "Using: $SDKMANAGER"
+          SDK_DIR=$(dirname "$SDKMANAGER")
 
+          echo "$SDK_DIR" >> "$GITHUB_PATH"
+          echo "$ANDROID_HOME/platform-tools" >> "$GITHUB_PATH"
+
+          echo "SDKMANAGER=$SDKMANAGER" >> "$GITHUB_ENV"
+
+          echo "Found SDK Manager: $SDKMANAGER"
+
+      - name: Install Android packages
+        shell: bash
+        run: |
           yes | "$SDKMANAGER" --licenses || true
 
           "$SDKMANAGER" --install \
@@ -70,10 +80,11 @@ jobs:
           APK="android/app/build/outputs/apk/debug/app-debug.apk"
 
           if [ ! -f "$APK" ]; then
-            echo "APK was not generated"
+            echo "ERROR: APK not generated"
             exit 1
           fi
 
+          echo "APK successfully generated:"
           ls -lh "$APK"
 
       - name: Upload APK
