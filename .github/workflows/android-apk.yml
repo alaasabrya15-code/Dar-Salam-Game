@@ -8,6 +8,9 @@ on:
       - main
       - feature/road-median
 
+permissions:
+  contents: read
+
 jobs:
   build-apk:
     name: Build Android APK
@@ -30,7 +33,13 @@ jobs:
           java-version: 21
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+        run: |
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          sdkmanager --licenses
+          sdkmanager --install \
+            "platform-tools" \
+            "platforms;android-36" \
+            "build-tools;36.0.0"
 
       - name: Install dependencies
         run: npm ci
@@ -44,6 +53,7 @@ jobs:
       - name: Verify APK
         run: |
           test -f android/app/build/outputs/apk/debug/app-debug.apk
+          ls -lh android/app/build/outputs/apk/debug/app-debug.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
