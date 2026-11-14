@@ -35,38 +35,31 @@ jobs:
       - name: Locate Android SDK
         shell: bash
         run: |
-          echo "ANDROID_HOME=${ANDROID_HOME}"
-          echo "ANDROID_SDK_ROOT=${ANDROID_HOME}"
-
           SDKMANAGER=$(find "$ANDROID_HOME/cmdline-tools" \
             -type f -name sdkmanager | head -n 1)
 
           if [ -z "$SDKMANAGER" ]; then
-            echo "ERROR: sdkmanager not found"
+            echo "sdkmanager not found"
             exit 1
           fi
 
-          SDK_DIR=$(dirname "$SDKMANAGER")
-
-          echo "$SDK_DIR" >> "$GITHUB_PATH"
+          echo "$(dirname "$SDKMANAGER")" >> "$GITHUB_PATH"
           echo "$ANDROID_HOME/platform-tools" >> "$GITHUB_PATH"
-
           echo "SDKMANAGER=$SDKMANAGER" >> "$GITHUB_ENV"
 
-          echo "Found SDK Manager: $SDKMANAGER"
-
       - name: Install Android packages
-        shell: bash
         run: |
           yes | "$SDKMANAGER" --licenses || true
-
           "$SDKMANAGER" --install \
             "platform-tools" \
             "platforms;android-36" \
             "build-tools;36.0.0"
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-audit --no-fund
+
+      - name: Verify lock file
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
 
       - name: Build web application
         run: npm run build
@@ -75,17 +68,9 @@ jobs:
         run: npm run android:apk
 
       - name: Verify APK
-        shell: bash
         run: |
-          APK="android/app/build/outputs/apk/debug/app-debug.apk"
-
-          if [ ! -f "$APK" ]; then
-            echo "ERROR: APK not generated"
-            exit 1
-          fi
-
-          echo "APK successfully generated:"
-          ls -lh "$APK"
+          test -f android/app/build/outputs/apk/debug/app-debug.apk
+          ls -lh android/app/build/outputs/apk/debug/app-debug.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
